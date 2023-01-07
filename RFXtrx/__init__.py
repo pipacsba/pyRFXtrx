@@ -762,7 +762,7 @@ class RFXtrxTransport:
                       "type_string": "Undecoded",
                       "id_string": "Undecoded",
         }
-        obj = {}
+        obj = SensorEvent()
         obj.device = device
         obj.data = data
         return obj
