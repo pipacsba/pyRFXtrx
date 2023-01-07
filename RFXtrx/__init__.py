@@ -755,7 +755,17 @@ class RFXtrxTransport:
             # Store the latest RF signal data
             obj.data = data
             return obj
-        return None
+        # pipacsba changes to send raw packet to HA
+        device = {
+                      "packet_type": "Undecoded",
+                      "sub_type": "Undecoded",
+                      "type_string": "Undecoded",
+                      "id_string": "Undecoded",
+        }
+        obj = {}
+        obj.device = device
+        obj.data = data
+        return obj
 
     def reset(self):
         """ reset the rfxtrx device """
