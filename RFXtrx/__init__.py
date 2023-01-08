@@ -757,7 +757,7 @@ class RFXtrxTransport:
             return obj
         # pipacsba changes to send raw packet to HA
         else:
-            a_data = [0x04 0x03 0x01 0x00 0x01]
+            a_data = [0x04, 0x03, 0x01, 0x00, 0x01]
             pkt = lowlevel.parse(a_data)
             if pkt is not None:
                 if isinstance(pkt, lowlevel.SensorPacket):
