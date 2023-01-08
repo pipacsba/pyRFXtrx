@@ -756,16 +756,23 @@ class RFXtrxTransport:
             obj.data = data
             return obj
         # pipacsba changes to send raw packet to HA
-        device = {
-                      "packet_type": "Undecoded",
-                      "sub_type": "Undecoded",
-                      "type_string": "Undecoded",
-                      "id_string": "Undecoded",
-        }
-        obj = SensorEvent()
-        obj.device = device
-        obj.data = data
-        return obj
+        else:
+            a_data = [0x04 0x03 0x01 0x00 0x01]
+            pkt = lowlevel.parse(a_data)
+            if pkt is not None:
+                if isinstance(pkt, lowlevel.SensorPacket):
+                    obj = SensorEvent(pkt)
+                elif isinstance(pkt, lowlevel.Status):
+                    obj = StatusEvent(pkt)
+                else:
+                    obj = ControlEvent(pkt)
+            obj.data = data
+            obj.device.packet_type = 0x03
+            obj.device.sub_type = 0x01
+            obj.device.type_string = "Undecoded"
+            obj.device.id_string = "Undecoded"
+            return obj
+        return None
 
     def reset(self):
         """ reset the rfxtrx device """
